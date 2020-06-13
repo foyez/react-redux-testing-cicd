@@ -1,22 +1,23 @@
 import React, { useEffect, useState, ChangeEvent } from 'react'
 
+import { useDispatch, useSelector } from 'react-redux'
+import { selectRobots } from '../slices/selectors'
+
 import { Header } from './Header'
 import { Scroll } from './Scroll'
 import { ErrorBoundary } from './ErrorBoundary'
 import { CardList } from './CardList'
-import { apiCall } from '../api'
-import { Robot } from '../interfaces'
 import { SearchBox } from './SearchBox'
+import { fetchRobots } from '../slices/robot'
 
 export const MainPage = () => {
-  const [robots, setRobots] = useState<Robot[]>([])
   const [searchField, setSearchField] = useState<string>('')
+  const dispatch = useDispatch()
+  const { robots, loading } = useSelector(selectRobots)
 
   useEffect(() => {
-    apiCall().then((data) => {
-      setRobots(data)
-    })
-  }, [])
+    dispatch(fetchRobots())
+  }, [dispatch])
 
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchField(e.target.value)
@@ -33,7 +34,7 @@ export const MainPage = () => {
       <Header />
       <SearchBox onChange={handleSearchChange} />
       <Scroll>
-        {!robots.length ? (
+        {loading ? (
           <h1>Loading...</h1>
         ) : (
           <ErrorBoundary>
