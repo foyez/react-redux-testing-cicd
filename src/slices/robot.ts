@@ -29,7 +29,9 @@ const robotSlice = createSlice({
     },
     loadRobotsFailure: failed,
     changeSearchField: {
-      reducer() {},
+      reducer(state, { payload }: PayloadAction<string>) {
+        state.searchField = payload
+      },
       prepare(searchField: string) {
         return { payload: searchField }
       },
@@ -41,6 +43,7 @@ export const {
   loadRobots,
   loadRobotsSuccess,
   loadRobotsFailure,
+  changeSearchField,
 } = robotSlice.actions
 export const robotReducer = robotSlice.reducer
 
