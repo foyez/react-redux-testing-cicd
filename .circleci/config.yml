@@ -22,8 +22,17 @@ jobs:
             - run: echo "testing stuff"
             - run: npm install
             - run: npm test
+  hithere:
+    docker:
+      - image: circleci/node:latest
+    steps:
+      - checkout
+      - run: echo "hello"
 workflows:
   build-and-test:
     jobs:
       - build
-      - test
+      - hithere
+      - test:
+          requires:
+            - hithere
