@@ -4,7 +4,7 @@ orbs:
 jobs:
   build:
     docker:
-      - image: circleci/node:12.16.1-buster-slim
+      - image: circleci/node:latest
     steps:
       - checkout
       - node/with-cache:
@@ -14,7 +14,7 @@ jobs:
             - run: CI=true npm run build
   test:
     docker:
-      - image: circleci/node:12.16.1-buster-slim
+      - image: circleci/node:latest
     steps:
       - checkout
       - node/with-cache:
