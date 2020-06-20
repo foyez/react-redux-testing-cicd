@@ -2,16 +2,37 @@ version: 2.1
 orbs:
   node: circleci/node@1.1.6
 jobs:
-  build-and-test:
-    executor:
-      name: node/default
+  build:
+    docker:
+      - image: circleci/node:latest
     steps:
       - checkout
       - node/with-cache:
           steps:
+            - run: echo "npm installing"
+            - run: npm install
+            - run: CI=true npm run build
+  test:
+    docker:
+      - image: circleci/node:latest
+    steps:
+      - checkout
+      - node/with-cache:
+          steps:
+            - run: echo "testing stuff"
             - run: npm install
             - run: npm test
+  hithere:
+    docker:
+      - image: circleci/node:latest
+    steps:
+      - checkout
+      - run: echo "hello"
 workflows:
-    build-and-test:
-      jobs:
-        - build-and-test
+  build-and-test:
+    jobs:
+      - build
+      - hithere
+      - test:
+          requires:
+            - hithere
