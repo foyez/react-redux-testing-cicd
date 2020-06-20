@@ -1,4 +1,8 @@
-import { getUsers } from './script2'
+import axios from 'axios'
+import { getUsers, User } from './script2'
+
+jest.mock('axios')
+const mockedAxios = axios as jest.Mocked<typeof axios>
 
 describe('test example - getUsers()', () => {
   it('calls jsonplaceholder to get users', async () => {
@@ -24,6 +28,13 @@ describe('test example - getUsers()', () => {
       }),
     )
 
+    // const response = {
+    //   username: 'Mithu',
+    //   address: {
+    //     city: 'Cumilla',
+    //   },
+    // }
+    // mockedAxios.get.mockReturnValueOnce({ data: response })
     const data = await getUsers()
 
     expect(fetch.call.length).toBe(1)

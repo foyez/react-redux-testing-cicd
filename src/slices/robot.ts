@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RobotState, Errors, Robot } from '../interfaces'
 import { AppThunk } from './store'
-import { apiCall } from '../api'
+import { UserApi } from '../api'
 
-const initialState: RobotState = {
+export const initialState: RobotState = {
   robots: [],
   searchField: '',
   errors: null,
@@ -26,6 +26,7 @@ const robotSlice = createSlice({
     loadRobotsSuccess: (state, { payload }: PayloadAction<Robot[]>) => {
       state.robots = payload
       state.loading = false
+      state.errors = null
     },
     loadRobotsFailure: failed,
     changeSearchField: {
@@ -51,9 +52,9 @@ export const fetchRobots = (): AppThunk => async (dispatch) => {
   dispatch(loadRobots())
 
   try {
-    const robots = await apiCall()
+    const res = await UserApi.getUsers()
 
-    dispatch(loadRobotsSuccess(robots))
+    dispatch(loadRobotsSuccess(res.data))
   } catch (error) {
     dispatch(loadRobotsFailure(error))
   }
