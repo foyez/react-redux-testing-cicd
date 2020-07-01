@@ -2,6 +2,7 @@
   "name": "robofriends-ts",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://foyezar.github.io/react-redux-testing-cicd",
   "dependencies": {
     "@reduxjs/toolkit": "^1.3.6",
     "@testing-library/jest-dom": "^4.2.4",
@@ -12,6 +13,7 @@
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
     "axios": "^0.19.2",
+    "gh-pages": "^3.1.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
@@ -24,7 +26,14 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "precommit": "pretty-quick --staged"
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d build"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged",
+      "pre-push": "yarn test"
+    }
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -50,6 +59,7 @@
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "husky": "^4.2.5",
+    "prettier": "^2.0.5",
     "pretty-quick": "^2.0.1",
     "redux-logger": "^3.0.6",
     "redux-mock-store": "^1.5.4"
